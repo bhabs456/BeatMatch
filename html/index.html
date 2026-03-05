@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#0a0015" />
+    <title>BeatMatch – Match the Rhythm</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/style.css" />
+  </head>
+  <body>
+    <!-- Animated Background -->
+    <div class="bg-canvas"></div>
+    <div class="beat-pulse"></div>
+    <div class="particles" id="particles"></div>
+    <div class="equalizer" id="equalizer"></div>
+
+    <!-- ═══════════ NAVBAR ═══════════ -->
+    <nav class="navbar">
+      <!-- Left: game name -->
+      <a class="navbar-brand" href="#">
+        <span class="navbar-brand-icon">🎵</span>
+        <span class="navbar-brand-text">BeatMatch</span>
+      </a>
+
+      <!-- Right: profile / login -->
+      <div class="navbar-right">
+        <!-- Profile wrap (shown when logged in) -->
+        <div class="profile-wrap" id="profileWrap">
+          <button
+            class="profile-avatar-btn"
+            id="profileAvatarBtn"
+            title="My Profile"
+          >
+            🎧<span class="online-dot"></span>
+          </button>
+          <div class="profile-dropdown" id="profileDropdown">
+            <div class="dd-header">
+              <div class="dd-avatar-lg" id="ddAvatarLg">🎧</div>
+              <div class="dd-user-info">
+                <div class="dd-username" id="ddUsername">BeatMaster</div>
+                <div class="dd-email" id="ddEmail">player@beatmatch.io</div>
+                <div class="dd-rank-badge">⚡ RANK: PRO</div>
+              </div>
+            </div>
+            <div class="dd-stats">
+              <div class="dd-stat">
+                <div class="dd-stat-val" id="ddStatScore">0</div>
+                <div class="dd-stat-lbl">Score</div>
+              </div>
+              <div class="dd-stat">
+                <div class="dd-stat-val" id="ddStatLevel">1</div>
+                <div class="dd-stat-lbl">Level</div>
+              </div>
+              <div class="dd-stat">
+                <div class="dd-stat-val" id="ddStatCombo">0</div>
+                <div class="dd-stat-lbl">Combo</div>
+              </div>
+            </div>
+            <div class="dd-menu">
+              <button class="dd-item" id="ddProfile">
+                <span class="dd-item-icon">👤</span>My Profile
+              </button>
+              <a class="dd-item" href="leaderboard.html"
+                ><span class="dd-item-icon">🏅</span>Leaderboard</a
+              >
+              <button class="dd-item" id="ddSettings">
+                <span class="dd-item-icon">⚙️</span>Settings
+              </button>
+              <button class="dd-item" id="ddAchievements">
+                <span class="dd-item-icon">🏆</span>Achievements
+              </button>
+              <div class="dd-divider"></div>
+              <button class="dd-item logout" id="ddLogout">
+                <span class="dd-item-icon">🚪</span>Logout
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Login button (shown when logged out) -->
+        <button class="navbar-login-btn" id="loginBtn">🎮 &nbsp;Login</button>
+      </div>
+    </nav>
+
+    <!-- ═══════════ AUTH MODAL (Login / Sign Up) ═══════════ -->
+    <div class="auth-modal-overlay" id="authModal">
+      <div class="auth-modal" id="authModalBox">
+        <button class="auth-close" id="authClose">✕</button>
+
+        <!-- Tabs -->
+        <div class="auth-tabs">
+          <button class="auth-tab active" id="tabLogin">Login</button>
+          <button class="auth-tab" id="tabSignup">Sign Up</button>
+        </div>
+
+        <!-- ── LOGIN PANEL ── -->
+        <div id="panelLogin">
+          <div class="auth-heading">
+            <div class="auth-emoji">🎵</div>
+            <div class="auth-title">Welcome Back</div>
+            <div class="auth-sub">Login to save your score</div>
+          </div>
+          <div class="auth-fields">
+            <input
+              class="auth-input"
+              id="loginUser"
+              type="text"
+              placeholder="Username"
+              autocomplete="username"
+            />
+            <input
+              class="auth-input"
+              id="loginPass"
+              type="password"
+              placeholder="Password"
+              autocomplete="current-password"
+            />
+            <div class="auth-error" id="loginError"></div>
+            <button class="auth-submit" id="doLoginBtn">▶ &nbsp;Login</button>
+            <div class="auth-footer">
+              No account?
+              <span class="auth-footer-link" id="switchToSignup">Sign Up</span
+              >&nbsp;&nbsp;·&nbsp;&nbsp;<span
+                class="auth-footer-link"
+                id="guestPlay"
+                >Play as Guest</span
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- ── SIGN UP PANEL ── -->
+        <div id="panelSignup" style="display: none">
+          <div class="auth-heading">
+            <div class="auth-emoji">🚀</div>
+            <div class="auth-title">Create Account</div>
+            <div class="auth-sub">Join the BeatMatch community</div>
+          </div>
+          <div class="auth-fields">
+            <input
+              class="auth-input"
+              id="signupUser"
+              type="text"
+              placeholder="Choose a username"
+              autocomplete="username"
+            />
+            <input
+              class="auth-input"
+              id="signupEmail"
+              type="email"
+              placeholder="Email address"
+              autocomplete="email"
+            />
+            <input
+              class="auth-input"
+              id="signupPass"
+              type="password"
+              placeholder="Create a password"
+              autocomplete="new-password"
+            />
+            <input
+              class="auth-input"
+              id="signupPass2"
+              type="password"
+              placeholder="Confirm password"
+              autocomplete="new-password"
+            />
+            <div class="auth-error" id="signupError"></div>
+            <button class="auth-submit" id="doSignupBtn">
+              ✦ &nbsp;Create Account
+            </button>
+            <div class="auth-footer">
+              Already have an account?
+              <span class="auth-footer-link" id="switchToLogin">Login</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════ GAME CARD ═══════════ -->
+    <div class="page-wrapper">
+      <div class="game-card">
+        <div class="game-header">
+          <div class="game-title">
+            <span class="title-emoji">🎵</span>BeatMatch
+          </div>
+          <div class="game-subtitle">
+            Match the rhythm &nbsp;·&nbsp; Master the beat
+          </div>
+        </div>
+
+        <div class="neon-divider"></div>
+
+        <div class="stats-row">
+          <div class="stat-card">
+            <div class="stat-icon">⚡</div>
+            <div class="stat-info">
+              <div class="stat-label">Level</div>
+              <div class="stat-value" id="statLevel">1</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🏆</div>
+            <div class="stat-info">
+              <div class="stat-label">Score</div>
+              <div class="stat-value" id="statScore">0</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="beat-row">
+          <div class="beat-indicator">
+            <div class="beat-dot"></div>
+            <div class="beat-dot"></div>
+            <div class="beat-dot"></div>
+            <div class="beat-dot"></div>
+          </div>
+          <div class="combo-badge" id="comboBadge">
+            🔥 COMBO: <span id="comboVal">0</span>x
+          </div>
+        </div>
+
+        <div class="play-btn-wrap">
+          <button class="play-btn" id="playBtn">▶ &nbsp;Play Beat</button>
+        </div>
+
+        <!-- 6 pads: 3 columns × 2 rows -->
+        <div class="pads-section">
+          <div class="pads-label">🥁 Drum Pads — Press or Click</div>
+          <div class="pads-row">
+            <div class="drum-pad" data-key="a">
+              <div class="pad-icon">🔵</div>
+              <div class="pad-key">A</div>
+              <div class="pad-name">Kick</div>
+            </div>
+            <div class="drum-pad" data-key="s">
+              <div class="pad-icon">🔷</div>
+              <div class="pad-key">S</div>
+              <div class="pad-name">Snare</div>
+            </div>
+            <div class="drum-pad" data-key="d">
+              <div class="pad-icon">🩷</div>
+              <div class="pad-key">D</div>
+              <div class="pad-name">Clap</div>
+            </div>
+            <div class="drum-pad" data-key="f">
+              <div class="pad-icon">🎩</div>
+              <div class="pad-key">F</div>
+              <div class="pad-name">Hi-Hat</div>
+            </div>
+            <div class="drum-pad" data-key="g">
+              <div class="pad-icon">🥁</div>
+              <div class="pad-key">G</div>
+              <div class="pad-name">Snare 2</div>
+            </div>
+            <div class="drum-pad" data-key="h">
+              <div class="pad-icon">🔔</div>
+              <div class="pad-key">H</div>
+              <div class="pad-name">Snare 3</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="progress-section">
+          <div class="progress-label-row">
+            <span class="progress-label">🎯 Rhythm Progress</span>
+            <span class="progress-label" id="progressPct">0%</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+        </div>
+
+        <div class="feedback-section">
+          <div class="accuracy-label">Accuracy</div>
+          <div class="accuracy-value" id="accuracyVal">--%</div>
+          <div class="feedback-msg" id="feedbackMsg">
+            Hit the pads to start!
+          </div>
+        </div>
+
+        <div class="neon-divider"></div>
+
+        <div class="bottom-actions">
+          <button class="action-btn outline" id="resetBtn">
+            🔄 &nbsp;Reset
+          </button>
+          <a class="action-btn leaderboard" href="leaderboard.html"
+            >🏅 &nbsp;Leaderboard</a
+          >
+        </div>
+      </div>
+    </div>
+
+    <script src="../js/game.js"></script>
+  </body>
+</html>
