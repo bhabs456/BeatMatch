@@ -22,12 +22,12 @@ import mysql.connector
 def get_cursor(dictionary=False):
 
     db = mysql.connector.connect(
-        host=os.getenv("MYSQLHOST"),
-        user=os.getenv("MYSQLUSER"),
-        password=os.getenv("MYSQLPASSWORD"),
-        database="beatmatch",
-        port=int(os.getenv("MYSQLPORT", 3306))
-    )
+    host=os.getenv("MYSQLHOST"),
+    user=os.getenv("MYSQLUSER"),
+    password=os.getenv("MYSQLPASSWORD"),
+    database="beatmatch",
+    port=int(os.getenv("MYSQLPORT", 3306))
+)
 
     cursor = db.cursor(dictionary=dictionary)
 
