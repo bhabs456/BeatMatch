@@ -32,6 +32,12 @@ def get_cursor(dictionary=False):
     cursor = db.cursor(dictionary=dictionary)
     return cursor, db
 
+@app.route("/db-test")
+def db_test():
+    cursor, db = get_cursor(True)
+    cursor.execute("SHOW TABLES;")
+    tables = cursor.fetchall()
+    return str(tables)
 
 # ==============================
 # LOGIN REQUIRED DECORATOR
