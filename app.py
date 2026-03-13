@@ -5,7 +5,6 @@ import mysql.connector
 from mysql.connector import pooling
 from functools import wraps
 from datetime import datetime
-import  os
 
 
 app = Flask(__name__)
@@ -20,17 +19,18 @@ app.secret_key = "beatmatch_super_secret"
 import os
 import mysql.connector
 
-db = mysql.connector.connect(
-    host=os.environ.get("MYSQLHOST"),
-    user=os.environ.get("MYSQLUSER"),
-    password=os.environ.get("MYSQLPASSWORD"),
-    database=os.environ.get("MYSQLDATABASE"),
-    port=os.environ.get("MYSQLPORT")
-)
-
 def get_cursor(dictionary=False):
-    db = db_pool.get_connection()
+
+    db = mysql.connector.connect(
+        host=os.getenv("MYSQLHOST"),
+        user=os.getenv("MYSQLUSER"),
+        password=os.getenv("MYSQLPASSWORD"),
+        database=os.getenv("MYSQLDATABASE"),
+        port=int(os.getenv("MYSQLPORT", 3306))
+    )
+
     cursor = db.cursor(dictionary=dictionary)
+
     return cursor, db
 
 
