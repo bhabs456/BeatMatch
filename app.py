@@ -15,13 +15,15 @@ app.secret_key = "beatmatch_super_secret"
 # DATABASE CONNECTION POOL
 # ==============================
 
-db_pool = pooling.MySQLConnectionPool(
-    pool_name="beatmatch_pool",
-    pool_size=5,
-    host="localhost",
-    user="root",
-    password="12345",
-    database="beatmatch"
+import os
+import mysql.connector
+
+db = mysql.connector.connect(
+    host=os.environ.get("MYSQLHOST"),
+    user=os.environ.get("MYSQLUSER"),
+    password=os.environ.get("MYSQLPASSWORD"),
+    database=os.environ.get("MYSQLDATABASE"),
+    port=os.environ.get("MYSQLPORT")
 )
 
 def get_cursor(dictionary=False):
