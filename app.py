@@ -5,22 +5,23 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps
 from datetime import datetime
 from init_db import init_database
-
+import os
 
 
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, supports_credentials=True)
 
-init_database()
+app.secret_key = os.getenv("SECRET_KEY", "beatmatch_super_secret")
 
-app.secret_key = "beatmatch_super_secret"
+app.config["SESSION_COOKIE_SECURE"] = True
+app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
 
 # ==============================
 # DATABASE CONNECTION POOL
 # ==============================
 
-import os
+
 import mysql.connector
 
 def get_db_connection():
