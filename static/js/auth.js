@@ -72,6 +72,7 @@ async function loginUser() {
 
   const res = await fetch("/login", {
     method: "POST",
+    credentials: "include",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       identifier,
